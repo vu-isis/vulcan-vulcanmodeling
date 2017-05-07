@@ -1,0 +1,91 @@
+{% extends g.templates['master'] %}
+
+{% block title %} WebGME {% endblock %}
+
+{% block after_content %}
+<div class="vf-toolbar-button-container">
+    <div class="vf-toolbar-button">
+        <img class="vf-toolbar-button-icon" src="{{ g.resource_manager.absurl('logo.svg') }}">
+    </div>
+</div>
+<iframe id="embedded_webgme" src="{{webgme_url}}" width="100%" ></iframe>
+{% endblock %}
+
+{% block head_extra %}
+<style>
+    #embedded_webgme {
+        display: block;
+        border: none;
+        border-top: 1px solid #101010;
+        margin-top: 0px;
+    }
+    #content-areas-wrapper {
+        padding-top: 4px;
+        background-color: #444;
+    }
+    .vf-toolbar-button-container {
+        position: fixed;
+        margin: 0 auto 0 -2em;
+        top: 0;
+        left: 50%;
+        z-index: 250;
+    }
+    .vf-toolbar-button {
+        padding: 1ex;
+        background: #444;
+        box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5), 0 0.5ex 1em black;
+        border-radius: 0 0 1ex 1ex;
+        color: white;
+        text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+        cursor: pointer;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .vf-toolbar-button-icon,
+    .vf-toolbar-button-label,
+    .vf-toolbar-button::before {
+        display: inline-block;
+        margin: 0 0.5ex;
+        vertical-align: middle;
+    }
+    .vf-toolbar-button-icon {
+        height: 20px;
+        width: 20px;
+    }
+</style>
+{% endblock head_extra %}
+
+{% block extra_js %}
+<script language="javascript" type="text/javascript">
+    function resize_embedded_webgme(){
+        var embedded_document = $('#embedded_webgme');
+        //var footer = $('#footer');
+        //var main_content_holder = $('#main-content-holder');
+        var hidden_headerbar = 36;
+        //embedded_document.height($('#footer').position()['top']-main_content_holder.position()['top']+hidden_headerbar);
+        embedded_document.height($(window).height()-$('#header-wrapper').height()+hidden_headerbar);
+    }
+    $(document).ready(function () {
+        resize_embedded_webgme();
+        $(window).resize(function() {
+            resize_embedded_webgme();
+        });
+        $("#header-wrapper").delay(5000).slideUp(300);
+        $(".vf-toolbar-button-container").click(function() {
+            $("#header-wrapper").slideDown(300);
+            $("#embedded_webgme").mouseover(function() {
+                $("#header-wrapper").slideUp(300);
+            });
+        });
+    });
+</script>
+{{ super() }}
+
+{% endblock extra_js %}
+
+{% block footer %}
+{% endblock footer %}
