@@ -48,6 +48,10 @@ when authorizing access WebGME interoperates with VulcanModeling via web service
 
 # Release Notes
 
+## Version 2.0.1
+
+Minor Python packaging changes.
+
 ## Version 2.0.0
 
 This release is compatible with the Ubuntu Xenial LTS.
